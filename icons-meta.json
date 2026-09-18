@@ -84,6 +84,7 @@
   "edit/drag-handle": { "zh": "拖拽手柄", "en": "Drag Handle", "keywords": ["grip", "move"], "tags": ["拖拽排序"], "status": "stable" },
   "edit/search": { "zh": "查找", "en": "Search", "keywords": ["find", "magnifier"], "tags": ["搜索"], "status": "stable" },
   "edit/lock": { "zh": "锁定", "en": "Lock", "keywords": ["readonly", "保护"], "tags": ["权限", "锁定"], "status": "stable" },
+  "edit/unlock": { "zh": "解锁", "en": "Unlock", "keywords": ["unlocked", "lock open", "解锁"], "tags": ["权限", "锁定"], "status": "stable" },
   "history/undo": { "zh": "撤销", "en": "Undo", "tags": ["撤销"], "status": "stable" },
   "history/redo": { "zh": "重做", "en": "Redo", "tags": ["重做"], "status": "stable" },
   "history/history": { "zh": "历史记录", "en": "History", "keywords": ["时间线"], "tags": ["历史记录"], "status": "stable" },

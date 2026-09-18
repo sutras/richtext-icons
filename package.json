@@ -1,6 +1,6 @@
 {
   "name": "richtext-icons",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "富文本编辑器 SVG 图标库 · Vite 8 + Vue 3",
   "type": "module",
   "files": [

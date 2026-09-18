@@ -8,7 +8,7 @@
 `richtext-icons` —— 面向富文本编辑器（WYSIWYG）的 Vue 3 SVG 图标库。
 
 - 技术栈：Vite 8 (Rolldown) + Vue 3 + TypeScript，Node ≥ 22.12（用 managed node 22.22.2 路径执行 npm/node）。
-- 规模：151 个图标 / 14 个分类，统一线性描边（24×24、stroke 1.5、圆角端点、`currentColor`）。
+- 规模：152 个图标 / 14 个分类，统一线性描边（24×24、stroke 1.5、圆角端点、`currentColor`）。
 - 组件前缀 `Rti`：`icons/align/align-left.svg` → `RtiAlignLeft`。
 
 ## 核心架构：源文件即唯一事实来源
