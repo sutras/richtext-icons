@@ -12,3 +12,5 @@ public/icon-sprite.svg
 .vite
 .idea
 .history
+
+deploy.sh
