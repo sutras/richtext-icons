@@ -1,0 +1,63 @@
+{
+  "name": "richtext-icons",
+  "version": "0.1.0",
+  "description": "富文本编辑器 SVG 图标库 · Vite 8 + Vue 3",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./metadata": {
+      "types": "./dist/metadata.d.ts",
+      "import": "./dist/metadata.js"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts"
+    }
+  },
+  "sideEffects": false,
+  "scripts": {
+    "gen": "node scripts/generate.mjs",
+    "dev": "npm run gen && vite",
+    "build:lib": "npm run gen && tsx scripts/build-lib.ts",
+    "build:site": "npm run gen && vite build",
+    "preview": "vite preview",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.json",
+    "prepublishOnly": "npm run build:lib",
+    "clean": "node -e \"fs.rmSync('dist',{recursive:true,force:true});fs.rmSync('dist-site',{recursive:true,force:true});fs.rmSync('src/generated',{recursive:true,force:true})\""
+  },
+  "keywords": [
+    "svg-icons",
+    "icon-library",
+    "rich-text-editor",
+    "wysiwyg",
+    "vue3",
+    "vite"
+  ],
+  "license": "MIT",
+  "author": "wuzhitao",
+  "homepage": "https://richtext-icons.wzt.zone/",
+  "repository": "https://github.com/sutras/richtext-icons",
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.3",
+    "@vitejs/plugin-vue": "^6.0.9",
+    "tsx": "^4.23.13",
+    "typescript": "^5.9.0",
+    "vite": "^8.3.0",
+    "vue": "^3.5.42",
+    "vue-tsc": "^3.3.11"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

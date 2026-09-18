@@ -1,0 +1,14 @@
+node_modules
+dist
+dist-site
+
+# 生成产物（由 npm run gen 重建）
+src/generated
+src/icons
+public/icon-sprite.svg
+
+.DS_Store
+*.log
+.vite
+.idea
+.history
