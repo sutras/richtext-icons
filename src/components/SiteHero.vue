@@ -25,7 +25,7 @@ const PKG_MANAGERS = [
         </p>
 
         <div class="hero-badges">
-          <span class="badge"><b>151</b> 个图标</span>
+          <span class="badge"><b>152</b> 个图标</span>
           <span class="badge"><b>14</b> 个分类</span>
           <span class="badge">Vue 3</span>
           <span class="badge">TypeScript</span>
