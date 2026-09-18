@@ -87,7 +87,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
       </div>
       <a
         class="btn btn--ghost icon-btn"
-        href="https://github.com/"
+        href="https://github.com/sutras/richtext-icons"
         target="_blank"
         rel="noopener"
         title="GitHub"
