@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useIconLibrary } from '@/composables/useIconLibrary'
 
-const { copy } = useIconLibrary()
+const { copy, stats } = useIconLibrary()
 
 const INSTALL_CMD = 'npm install richtext-icons'
 const PKG_MANAGERS = [
@@ -25,8 +25,8 @@ const PKG_MANAGERS = [
         </p>
 
         <div class="hero-badges">
-          <span class="badge"><b>152</b> 个图标</span>
-          <span class="badge"><b>14</b> 个分类</span>
+          <span class="badge"><b>{{ stats.total }}</b> 个图标</span>
+          <span class="badge"><b>{{ stats.categories }}</b> 个分类</span>
           <span class="badge">Vue 3</span>
           <span class="badge">TypeScript</span>
           <span class="badge">Tree-shaking</span>
