@@ -34,9 +34,11 @@ import { RtiBold } from 'richtext-icons'
 | --- | --- |
 | `npm run gen` | 扫描 `icons/` → 生成组件、库入口、清单 |
 | `npm run dev` | 生成 + 启动预览站 |
-| `npm run build:lib` | 构建组件库 → `dist/`（纯 ESM + d.ts + 可发布 package.json） |
+| `npm run build:lib` | 构建组件库 → `dist/`（纯 ESM + d.ts） |
 | `npm run build:site` | 构建预览站 → `dist-site/` |
+| `npm run preview` | 本地预览 `dist-site/` |
 | `npm run typecheck` | vue-tsc 类型检查 |
+| `npm run clean` | 清理 `dist/`、`dist-site/`、`src/generated/` |
 
 ## 目录结构
 
@@ -114,9 +116,11 @@ dist/
 ├── index.d.ts             类型声明（随图标自动更新）
 ├── metadata.js            纯元数据入口（零 Vue 依赖，供 AI / 工具链检索）
 ├── metadata.d.ts          轻量元数据类型（IconMetaLite）
-├── types.d.ts             公共类型（IconMeta 等）
-└── package.json           可独立发布的包描述（纯 ESM）
+└── types.d.ts             公共类型（IconMeta 等）
 ```
+
+`dist/` 内**没有**嵌套 `package.json` —— 发布从仓库根目录进行，
+根 `package.json` 的 `files: ["dist"]` 与 `exports` 指向 `./dist/*` 即为唯一真身。
 
 ### 纯元数据入口（供 AI / 工具链检索）
 
@@ -133,6 +137,56 @@ const rowOps = icons.filter((i) => i.tags.includes('行操作'))
 `category` / `status` / `style` / `viewBox`。`tags` 是用途语义标签（如「表格」「行操作」
 「主题」「协作」），用于 AI 按场景理解图标用途，区别于 `keywords` 的近义词检索。
 
+## 发布
+
+### 发布组件库到 npm
+
+**前置检查**
+
+- Node ≥ 22.12（`engines` 约束）
+- 已登录 npm：`npm login`；CI 上改用 `NPM_TOKEN` 环境变量
+- 根目录有 `LICENSE` 文件，且与 `package.json` 的 `license` 字段（MIT）一致
+- 工作树干净，`npm run typecheck` 通过
+
+**步骤**
+
+```bash
+# 1. 递增版本号（默认会一并提交并打 git tag；只想改文件加 --no-git-tag-version）
+npm version patch          # patch / minor / major
+
+# 2. 构建 + 核对将被发布的文件清单（不会真的发布）
+npm run build:lib
+npm publish --dry-run
+
+# 3. 发布
+npm publish
+
+# 4. 验证
+npm view richtext-icons version
+```
+
+**要点**
+
+- **从仓库根目录发布**：`files: ["dist"]` 决定打包内容，`exports` 指向 `./dist/*`。
+  `dist/` 里**不要**放嵌套 `package.json`，否则会打包出双层包结构。
+- `prepublishOnly` 已挂 `npm run build:lib`，所以 `npm publish` 一定会带上最新产物，
+  不会发出过期构建；但**不会**替你做前置检查，`typecheck` 还得自己先跑。
+- `vue` 是 `peerDependencies`（`^3.0.0`），不进产物；使用时由宿主的 Vue 提供。
+- 发布后对外共三个入口：`.`（组件）、`./metadata`（纯元数据，零 Vue 依赖）、`./types`。
+- 图标有增删时记得同步文档里的计数（`README.md` 概述段 + 分类表、`AGENTS.md` 规模行），
+  以 `npm run gen` 输出的「图标 N 个 · 分类 M 个」为准。
+
+### 部署文档站
+
+```bash
+./deploy.sh
+```
+
+等价于 `npm run build:site` 构建到 `dist-site/`，再 rsync 同步到静态托管目录，
+访问 <https://richtext-icons.wzt.zone/>。
+
+> `deploy.sh` 内含服务器地址，未纳入版本库（见 `.gitignore`）；换机器部署需自行重建。
+
 ## 分类规划
 
 全部 14 个分类已建成，共 **155 个图标**，统一为线性描边风格
@@ -140,20 +194,20 @@ const rowOps = icons.filter((i) => i.tags.includes('行操作'))
 
 | 分类 | 目录 | 数量 | 代表图标 |
 | --- | --- | --- | --- |
-| 文本格式 | `format` | 15 | 加粗、斜体、下划线、删除线、上下标、字号增减、清除格式、格式刷、文本方向 |
-| 行内标记 | `inline` | 7 | 链接、行内代码、高亮、批注、表情、提及 |
+| 文本格式 | `format` | 15 | 加粗、斜体、下划线、删除线、上下标、字号增减、大小写、文本方向、翻译、清除格式、格式刷 |
+| 行内标记 | `inline` | 7 | 链接/取消链接、行内代码、高亮、批注、表情、提及 |
 | 颜色与字体 | `color` | 6 | 文字颜色、背景色、字体、取色器、渐变、透明度 |
-| 对齐缩进 | `align` | 10 | 左/中/右/两端对齐、垂直方向对齐、增减缩进、行高 |
+| 对齐缩进 | `align` | 10 | 左/中/右/两端对齐、垂直方向对齐（上/中/下）、增减缩进、行高 |
 | 列表 | `list` | 3 | 无序、有序、任务列表 |
-| 段落与块 | `block` | 8 | H1–H3、引用、代码块、分割线、段落、提示框 |
+| 段落与块 | `block` | 11 | H1–H6、引用、代码块、分割线、段落、提示框 |
 | 插入 | `insert` | 7 | 附件、日期、公式、特殊字符、嵌入、分页符、AI 助手 |
 | 表格 | `table` | 20 | 插入/删除表格与行列、行/列插入与移动、合并/拆分单元格、表头与单元格配色 |
-| 媒体 | `media` | 9 | 图片、视频、音频、拍照、图库、上传、裁剪 |
+| 媒体 | `media` | 9 | 图片、视频、音频、播放、音量、拍照、图库、上传、裁剪 |
 | 编辑操作 | `edit` | 9 | 复制、剪切、粘贴、删除、全选、拖拽手柄、查找、锁定/解锁 |
 | 历史记录 | `history` | 5 | 撤销、重做、历史、恢复、版本 |
-| 视图 | `view` | 8 | 全屏、源码、大纲、分屏、缩放、预览 |
-| 状态反馈 | `status` | 9 | 成功、警告、错误、提示、帮助、加载、拼写检查、同步、已保存 |
-| 界面基础件 | `ui` | 9 | 加号、减号、对勾、关闭、更多、下拉箭头、设置、下载、分享 |
+| 视图 | `view` | 13 | 全屏/退出全屏、源码、大纲、分屏、缩放、预览、侧栏开关、深色/浅色、对比度 |
+| 状态反馈 | `status` | 11 | 成功、警告、错误、提示、帮助、加载、拼写检查、同步、已保存、关闭（实心）、认证 |
+| 界面基础件 | `ui` | 29 | 加号、减号、对勾、关闭、更多、下拉箭头、设置、下载、分享、箭头、图钉、用户、密码、验证码、旋转、返回、主页、退出、启动、文档、斜杠 |
 
 缺图标时把 SVG 放进对应目录、在 `icons-meta.json` 补中文名，`npm run gen` 即可。
 待补清单见 [`docs/icon-gaps.md`](docs/icon-gaps.md)。

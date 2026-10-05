@@ -43,7 +43,7 @@
   "block/heading-6": { "zh": "六级标题", "en": "Heading 6", "keywords": ["h6", "title"], "tags": ["标题", "段落结构"], "status": "stable" },
   "block/quote": { "zh": "引用", "en": "Quote", "keywords": ["blockquote"], "tags": ["引用块"], "status": "stable" },
   "block/code-block": { "zh": "代码块", "en": "Code Block", "keywords": ["pre"], "tags": ["代码块"], "status": "stable" },
-  "block/divider": { "zh": "分割线", "en": "Divider", "keywords": ["hr", "horizontal rule"], "tags": ["分割线"], "status": "stable" },
+  "block/divider": { "zh": "分割线", "en": "Divider", "keywords": ["hr", "horizontal rule", "separator", "水平线"], "tags": ["分割线", "水平线"], "status": "stable" },
   "block/paragraph": { "zh": "段落", "en": "Paragraph", "keywords": ["text", "p"], "tags": ["段落"], "status": "stable" },
   "block/callout": { "zh": "提示框", "en": "Callout", "keywords": ["note", "admonition"], "tags": ["提示框"], "status": "stable" },
   "insert/attachment": { "zh": "附件", "en": "Attachment", "keywords": ["paperclip", "file", "回形针"], "tags": ["附件", "文件上传"], "status": "stable" },

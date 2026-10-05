@@ -1,6 +1,7 @@
 node_modules
 dist
 dist-site
+*.tgz
 
 # 生成产物（由 npm run gen 重建）
 src/generated
@@ -12,5 +13,8 @@ public/icon-sprite.svg
 .vite
 .idea
 .history
+
+# 本地工作区数据（agent 记忆、临时对比图等，不入库）
+.workbuddy/
 
 deploy.sh
